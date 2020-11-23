@@ -1,0 +1,23 @@
+{
+  "name": "discord-exporter",
+  "version": "1.0.0",
+  "description": "Exports Discord search from the web client",
+  "main": "discord-exporter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ctsstc/discord-exporter.git"
+  },
+  "keywords": [
+    "Discord",
+    "Export"
+  ],
+  "author": "Cody Swartz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ctsstc/discord-exporter/issues"
+  },
+  "homepage": "https://github.com/ctsstc/discord-exporter#readme"
+}
