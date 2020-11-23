@@ -1,20 +1,20 @@
 div#search-results
-  ...:div[role=group]
+  ...:div[role=group] => SearchResult[]
     1:div[class^=channelSeparator]
       1:span[class^=channelName]
         Inner Text => Channel Name
-    2:div[class^=searchResult]
+    2:div[class^=searchResult] => Message[]
       ...:div[class^=searchResultMessage]
         &[aria-hidden=true] => Main Matching Message 
         &[aria-hidden=false] => Nearby Messages
-      1:div[class^=messageGroup]
-        1:image[class^=avatar]
-          [src] => Avatar Image URL
-        2:h2[class^=header]
-          1:span[class^=headerText]
-            1:div[class^=username]
-              Inner Text => User Name
-          2:span[class^=timestamp]
-            Inner Text => Message Date
-        3:div[class*=messageContent]
-          Inner Text => Message
+        1:div[class^=messageGroup]
+          1:image[class^=avatar]
+            [src] => Avatar Image URL
+          2:h2[class^=header]
+            1:span[class^=headerText]
+              1:div[class^=username]
+                Inner Text => Username
+            2:span[class^=timestamp]
+              Inner Text => Message Date
+          3:div[class*=messageContent]
+            Inner Text => Message
