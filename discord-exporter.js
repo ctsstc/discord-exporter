@@ -1,9 +1,9 @@
 
 let SearchResultExporter = class {
+  /** @type {SearchResult[]} */
+  searchResults;
   /** @type {HTMLElement} */
   #el;
-  /** @type {SearchResult[]} */
-  #searchResults;
 
   /**
    * 
@@ -11,13 +11,14 @@ let SearchResultExporter = class {
    */
   constructor(el) {
     this.#el = el;
-    this.#searchResults = this.#getSearchResults();
-
-    return this.#searchResults;
+    this.searchResults = this.#getSearchResults();
   }
 
   #searchResultElements() {
-    return this.#el.querySelectorAll(':scope > div[role="group"]');
+    const parentSelector = ':scope > div[role="group"]';
+    const childSelector = '> div[class*="searchResult-"]';
+    const selector = `${parentSelector} ${childSelector}`;
+    return this.#el.querySelectorAll(selector);
   }
 
   #getSearchResults() {
@@ -42,14 +43,13 @@ let SearchResult = class {
 
   #getChannelName() {
     const selector = ':scope > div[class*="channelSeparator-"]';
-    const el = this.#el.querySelector(selector);
+    const parent = this.#el.parentElement;
+    const el = parent.querySelector(selector);
     return el.innerText;
   }
 
   #getMessages() {
-    const parentSelector = ':scope > div[class*="searchResult"]';
-    const childSelector = '> div[class*="searchResultMessage-"]';
-    const selector = `${parentSelector} ${childSelector}`;
+    const selector = ':scope div[class*="searchResultMessage-"]';
     const els = this.#el.querySelectorAll(selector);
 
     return Array.from(els).map(el => new Message(el));
@@ -122,7 +122,7 @@ let Message = class {
   }
 
   #getIsMainMessage() {
-    return this.#el.getAttribute('css').includes('hit-');
+    return this.#el.getAttribute('class').includes('hit-');
   }
 };
 
