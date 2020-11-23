@@ -128,3 +128,4 @@ let Message = class {
 
 let searchElement = document.getElementById('search-results');
 let results = new SearchResultExporter(searchElement);
+copy(JSON.stringify(results, null, ' '));
