@@ -41,14 +41,14 @@ let SearchResult = class {
   }
 
   #getChannelName() {
-    const selector = ':scope > div[class*="channelSeparator"]';
+    const selector = ':scope > div[class*="channelSeparator-"]';
     const el = this.#el.querySelector(selector);
     return el.innerText;
   }
 
   #getMessages() {
     const parentSelector = ':scope > div[class*="searchResult"]';
-    const childSelector = '> div[class*="searchResultMessage"]';
+    const childSelector = '> div[class*="searchResultMessage-"]';
     const selector = `${parentSelector} ${childSelector}`;
     const els = this.#el.querySelectorAll(selector);
 
@@ -62,14 +62,67 @@ let Message = class {
   /** @type {string} */
   username;
   /** @type {string} */
-  date;
+  timestamp;
   /** @type {string} */
   message;
+  /** @type {boolean} */
+  isMainMessage;
   /** @type {HTMLElement} */
   #el;
+  /** @type {HTMLElement} */
+  #container;
+  /** @type {HTMLElement} */
+  #headerEl;
 
   constructor(el) {
     this.#el = el;
+    this.#container = this.#getContainer();
+    this.#headerEl = this.#getHeaderEl();
+    this.avatarImageUrl = this.#getAvatarImageUrl();
+    this.username = this.#getUsername();
+    this.timestamp = this.#getTimestamp();
+    this.message = this.#getMessage();
+    this.isMainMessage = this.#getIsMainMessage();
+  }
+
+  #getContainer() {
+    const parentSelector = ':scope > div[class*="messageGroup"]';
+    const childSelector = '> div[class*="contents-"]';
+    const selector = `${parentSelector} ${childSelector}`;
+    return this.#el.querySelector(selector);
+  }
+
+  #getHeaderEl() {
+    const selector = ':scope > h2[class*="header"]';
+    return this.#container.querySelector(selector);
+  }
+
+  #getAvatarImageUrl() {
+    const selector = ':scope > img[class*="avatar-"]';
+    const el = this.#container.querySelector(selector);
+    return el.getAttribute('src');
+  }
+
+  #getUsername() {
+    const selector = ':scope > span[class*="headerText"]';
+    const el = this.#headerEl.querySelector(selector);
+    return el.innerText;
+  }
+
+  #getTimestamp() {
+    const selector = ':scope > span[class*="timestamp"]';
+    const el = this.#headerEl.querySelector(selector);
+    return el.innerText;
+  }
+
+  #getMessage() {
+    const selector = ':scope > div[class*="markup-"]';
+    const el = this.#container.querySelector(selector);
+    return el.innerText;
+  }
+
+  #getIsMainMessage() {
+    return this.#el.getAttribute('css').includes('hit-');
   }
 };
 
