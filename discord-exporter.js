@@ -11,7 +11,7 @@ let SearchResultExporter = class {
    */
   constructor(el) {
     this.#el = el;
-    this.#searchResults = this.#searchResultFactory();
+    this.#searchResults = this.#getSearchResults();
 
     return this.#searchResults;
   }
@@ -20,7 +20,7 @@ let SearchResultExporter = class {
     return this.#el.querySelectorAll(':scope > div[role="group"]');
   }
 
-  #searchResultFactory() {
+  #getSearchResults() {
     return Array.from(this.#searchResultElements())
       .map(el => new SearchResult(el));
   }
@@ -36,6 +36,23 @@ let SearchResult = class {
 
   constructor(el) {
     this.#el = el;
+    this.channelName = this.#getChannelName();
+    this.messages = this.#getMessages();
+  }
+
+  #getChannelName() {
+    const selector = ':scope > div[class*="channelSeparator"]';
+    const el = this.#el.querySelector(selector);
+    return el.innerText;
+  }
+
+  #getMessages() {
+    const parentSelector = ':scope > div[class*="searchResult"]';
+    const childSelector = '> div[class*="searchResultMessage"]';
+    const selector = `${parentSelector} ${childSelector}`;
+    const els = this.#el.querySelectorAll(selector);
+
+    return Array.from(els).map(el => new Message(el));
   }
 };
 
